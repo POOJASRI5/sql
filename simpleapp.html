@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Placement Demo</title>
+</head>
+<body>
+
+<h2>Placement Form</h2>
+
+<!-- Department Dropdown -->
+<select id="dept" onchange="loadStudents()">
+    <option value="">Select Department</option>
+</select>
+
+<br><br>
+
+<!-- Student Dropdown -->
+<select id="student">
+    <option value="">Select Student</option>
+</select>
+
+<br><br>
+
+<!-- Company Dropdown -->
+<select id="company">
+    <option value="TCS">TCS</option>
+    <option value="Infosys">Infosys</option>
+</select>
+
+<br><br>
+
+<button onclick="addPlacement()">Add Placement</button>
+
+<h3>Placement Table</h3>
+
+<table border="1" id="table">
+    <tr>
+        <th>Department</th>
+        <th>Student</th>
+        <th>Company</th>
+    </tr>
+</table>
+
+<script>
+
+// DATA (like database)
+let departments = [
+    {id:1, name:"CSE"},
+    {id:2, name:"ECE"}
+];
+
+let students = [
+    {id:1, name:"Arun", dept_id:1},
+    {id:2, name:"Priya", dept_id:1},
+    {id:3, name:"Karthick", dept_id:2},
+    {id:4, name:"Divya", dept_id:2}
+];
+
+// Load departments
+let deptSelect = document.getElementById("dept");
+
+departments.forEach(d => {
+    let option = `<option value="${d.id}">${d.name}</option>`;
+    deptSelect.innerHTML += option;
+});
+
+// Load students based on department
+function loadStudents() {
+    let deptId = document.getElementById("dept").value;
+    let studentSelect = document.getElementById("student");
+
+    studentSelect.innerHTML = '<option>Select Student</option>';
+
+    students.forEach(s => {
+        if(s.dept_id == deptId) {
+            let option = `<option value="${s.name}">${s.name}</option>`;
+            studentSelect.innerHTML += option;
+        }
+    });
+}
+
+// Add placement row (JOIN simulation)
+function addPlacement() {
+    let dept = document.getElementById("dept");
+    let student = document.getElementById("student");
+    let company = document.getElementById("company");
+
+    let deptName = dept.options[dept.selectedIndex].text;
+    let studentName = student.value;
+    let companyName = company.value;
+
+    if(!deptName || !studentName) {
+        alert("Select properly!");
+        return;
+    }
+
+    let table = document.getElementById("table");
+
+    let row = table.insertRow();
+    row.insertCell(0).innerText = deptName;
+    row.insertCell(1).innerText = studentName;
+    row.insertCell(2).innerText = companyName;
+}
+
+</script>
+
+</body>
+</html>
